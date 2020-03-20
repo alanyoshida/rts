@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,11 +13,13 @@ public class selector : MonoBehaviour
   private Vector2 mouseEndPosition;
   private Vector2 mouseInitialPosition;
   public Image selectionBackground;
+  List<GameObject> selectedGameObjects;
 
     // Start is called before the first frame update
     void Start()
     {
       selectedUnits = GameObject.FindGameObjectsWithTag("ship");
+      selectedGameObjects = new List<GameObject>();
     }
 
     void drawSelectionBox()
@@ -70,23 +73,53 @@ public class selector : MonoBehaviour
         RaycastHit2D PosMinMouse2d = Physics2D.Raycast(Cam.ScreenToWorldPoint(mouseStartPosition), Vector2.zero);
         RaycastHit2D PosMaxMouse2d = Physics2D.Raycast(Cam.ScreenToWorldPoint(mouseEndPosition), Vector2.zero);
 
-        List<GameObject> items = new List<GameObject>(GameObject.FindGameObjectsWithTag("ship"));
-        int totalUnits = items.
-        foreach (var item in items)
+        List<GameObject> gameObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("ship"));
+
+        foreach (var item in gameObjects)
         {
-          if (collider.IsTouching(item.GetComponent<BoxCollider2D>()))
+          if (item.transform.position.x > PosMinMouse2d.point.x &&
+              item.transform.position.x < PosMaxMouse2d.point.x &&
+              item.transform.position.y > PosMinMouse2d.point.y &&
+              item.transform.position.y < PosMaxMouse2d.point.y)
           {
-            print("Is Colliding");
+            item.GetComponent<SpriteRenderer>().color = Color.cyan;
+            selectedGameObjects.Add(item);
           }
         }
-
-
       }
     }
+
+    void moveGameObjects()
+    {
+      if (Input.GetMouseButtonDown(1))
+      {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+        // it has a collision
+        if (hit.collider != null)
+        {
+          Vector3 troupDestination = hit.point;
+          int matrixSize = (int) Math.Floor(Math.Sqrt( selectedGameObjects.Count));
+          Vector3 unitDestination;
+          foreach (var unit in selectedGameObjects)
+          {
+            if (unit)
+            {
+              unitDestination = troupDestination;
+              // TODO: each ship have unique destinations
+
+              unit.GetComponent<Ship>().destination = unitDestination;
+            }
+          }
+        }
+      }
+    }
+
     // Update is called once per frame
     void Update()
     {
       this.drawSelectionBox();
       this.selectUnits();
+      this.moveGameObjects();
     }
 }

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\selector.cs" />
+    <Compile Include="Assets\scripts\Ship.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>/home/alan.oliveira/Projects/teste/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
