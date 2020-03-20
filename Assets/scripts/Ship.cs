@@ -15,6 +15,7 @@ public class Ship : MonoBehaviour
     void Start()
     {
       angle = 0;
+      destination = transform.position;
     }
 
     // Update is called once per frame

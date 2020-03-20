@@ -117,6 +117,20 @@ public class selector : MonoBehaviour
       }
     }
 
+    void unitSelector()
+    {
+      if (Input.GetMouseButtonDown(0))
+      {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        if (hit.collider.gameObject.tag == "ship")
+        {
+          hit.collider.gameObject.GetComponent<Ship>().selected = true;
+          hit.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+          selectedGameObjects.Add(hit.collider.gameObject);
+
+        }
+      }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -126,5 +140,6 @@ public class selector : MonoBehaviour
       this.drawSelectionBox();
       this.selectUnits();
       this.moveGameObjects();
+      this.unitSelector();
     }
 }
