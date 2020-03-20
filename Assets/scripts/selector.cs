@@ -68,6 +68,7 @@ public class selector : MonoBehaviour
 
     void selectUnits()
     {
+
       if (Input.GetMouseButtonUp(0))
       {
         RaycastHit2D PosMinMouse2d = Physics2D.Raycast(Cam.ScreenToWorldPoint(mouseStartPosition), Vector2.zero);
@@ -83,6 +84,7 @@ public class selector : MonoBehaviour
               item.transform.position.y < PosMaxMouse2d.point.y)
           {
             item.GetComponent<SpriteRenderer>().color = Color.cyan;
+            item.GetComponent<Ship>().selected = true;
             selectedGameObjects.Add(item);
           }
         }
@@ -107,7 +109,6 @@ public class selector : MonoBehaviour
             {
               unitDestination = troupDestination;
               // TODO: each ship have unique destinations
-              unit.GetComponent<Ship>().selected = true;
               unit.GetComponent<Ship>().destination = unitDestination;
 
             }
@@ -119,6 +120,9 @@ public class selector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      if (Input.GetMouseButtonDown(0)){
+        selectedGameObjects.Clear();
+      }
       this.drawSelectionBox();
       this.selectUnits();
       this.moveGameObjects();

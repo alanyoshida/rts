@@ -20,14 +20,23 @@ public class Ship : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if (Input.GetMouseButtonDown(1))
-      {
-        this.rotate();
-      }
       if (selected)
       {
-        this.move();
+        if (Input.GetMouseButtonDown(1))
+        {
+          this.rotate();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+          selected = false;
+        }
       }
+      else
+      {
+        GetComponent<SpriteRenderer>().color = Color.white;
+      }
+      this.move();
     }
 
     void rotate()
