@@ -107,8 +107,9 @@ public class selector : MonoBehaviour
             {
               unitDestination = troupDestination;
               // TODO: each ship have unique destinations
-
+              unit.GetComponent<Ship>().selected = true;
               unit.GetComponent<Ship>().destination = unitDestination;
+
             }
           }
         }

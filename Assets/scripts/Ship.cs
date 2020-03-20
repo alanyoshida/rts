@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-  public Vector3 destination;
-  public float speedRotate;
-  public float speed;
-  private float angle;
+    public Vector3 destination;
+    public float speedRotate;
+    public float speed;
+    private float angle;
+    public bool selected;
+    private Rigidbody2D rb;
 
-  private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,16 +22,25 @@ public class Ship : MonoBehaviour
     {
       if (Input.GetMouseButtonDown(1))
       {
-        Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        Vector3 lookAt = mouseScreenPosition;
-
-        float AngleRad = Mathf.Atan2(lookAt.y - this.transform.position.y, lookAt.x - this.transform.position.x);
-
-        float AngleDeg = (180 / Mathf.PI) * AngleRad;
-
-        this.transform.rotation = Quaternion.Euler(0, 0, AngleDeg);
+        this.rotate();
       }
+      if (selected)
+      {
+        this.move();
+      }
+    }
+
+    void rotate()
+    {
+      Vector3 mouseScreenPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+      Vector3 lookAt = mouseScreenPosition;
+
+      float AngleRad = Mathf.Atan2(lookAt.y - this.transform.position.y, lookAt.x - this.transform.position.x);
+
+      float AngleDeg = (180 / Mathf.PI) * AngleRad;
+
+      this.transform.rotation = Quaternion.Euler(0, 0, AngleDeg - 90);
     }
 
     void move()
