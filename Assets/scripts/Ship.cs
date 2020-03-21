@@ -23,11 +23,13 @@ public class Ship : MonoBehaviour
     {
       if (selected)
       {
+        // Right Mouse
         if (Input.GetMouseButtonDown(1))
         {
           this.rotate();
         }
 
+        // Left Mouse
         if (Input.GetMouseButtonDown(0))
         {
           selected = false;
